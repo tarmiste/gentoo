@@ -1,0 +1,33 @@
+#chroot /mnt/gentoo /bin/bash 
+source /etc/profile 
+export PS1="(chroot) ${PS1}"
+
+#  mount boot if seperate
+#mount /dev/sda1 /boot
+
+emerge-webrsync
+#emerge --sync
+#emerge --sync --quiet
+eselect news list 
+#eselect news read
+#man news.eselect
+eselect profile list
+
+#  select profile desired
+eselect profile set 2
+emerge --ask --verbose --update --deep --newuse @world
+emerge --info | grep ^USE
+#less /var/db/repos/gentoo/profiles/use.desc
+#nano -w /etc/portage/make.conf
+ls /usr/share/zoneinfo
+
+#  set timezone as appropriate
+echo "America/Phoenix" > /etc/timezone
+emerge --config sys-libs/timezone-data
+
+#  Adjust locales creation script as needed.
+#nano -w /etc/locale.gen
+#locale-gen
+#eselect locale list
+#eselect locale set 9
+env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
