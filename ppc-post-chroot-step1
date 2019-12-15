@@ -14,10 +14,12 @@ eselect news list
 eselect profile list
 
 #  select profile desired
-eselect profile set 2
-emerge --ask --verbose --update --deep --newuse @world
+eselect profile set 1
+#eselect profile set 1
+emerge --verbose --update --deep --newuse @world
+#emerge --ask --verbose --update --deep --newuse @world
 emerge --info | grep ^USE
-#less /var/db/repos/gentoo/profiles/use.desc
+cat /var/db/repos/gentoo/profiles/use.desc
 #nano -w /etc/portage/make.conf
 ls /usr/share/zoneinfo
 
