@@ -1,0 +1,177 @@
+
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:  * 1 Chrooting <#Chrooting>
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:    Chrooting
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mirrorselect -i -o >> /mnt/gentoo/etc/portage/make.conf|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mkdir --parents /mnt/gentoo/etc/portage/repos.conf|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||cp /mnt/gentoo/usr/share/portage/config/repos.conf
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||cp --dereference /etc/resolv.conf /mnt/gentoo/etc/|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:In a few moments, the Linux root will be changed towards the new
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --types proc /proc /mnt/gentoo/proc |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --rbind /sys /mnt/gentoo/sys |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --make-rslave /mnt/gentoo/sys |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --rbind /dev /mnt/gentoo/dev |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --make-rslave /mnt/gentoo/dev |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:after the chroot, becomes invalid. Making /dev/shm/ a proper tmpfs mount
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||test -L /dev/shm && rm /dev/shm && mkdir /dev/shm |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --types tmpfs --options nosuid,nodev,noexec shm /dev/shm |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||chmod 1777 /dev/shm|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:chrooting into it. This means that the session will change its root
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:the name, /change root/ or /chroot/.
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:This chrooting is done in three steps:
+Handbook:PPC_Installation_Base - Gentoo Wiki.html: 1. The root location is changed from / (on the installation medium) to
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:    /mnt/gentoo/ (on the partitions) using chroot
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:    is inside a chroot environment.
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||chroot /mnt/gentoo /bin/bash |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||source /etc/profile |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||export PS1="(chroot) ${PS1}"|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:no need to repartition the disks again! Simply mount the root partition
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:<https://wiki.gentoo.org/wiki/Handbook:PPC/Installation/Disks#Mounting_the_root_partition>
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:the chroot <https://wiki.gentoo.org/wiki/Chroot> article.
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount /dev/sda1 /boot|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||emerge-webrsync|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||emerge --sync|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||emerge --sync --quiet|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||eselect news list |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||eselect news read|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||man news.eselect|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||eselect profile list|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||eselect profile set 2|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||emerge --ask --verbose --update --deep --newuse @world|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||emerge --info | grep ^USE|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||less /var/db/repos/gentoo/profiles/use.desc|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||nano -w /etc/portage/make.conf|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||ls /usr/share/zoneinfo|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||echo "Europe/Brussels" > /etc/timezone|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||emerge --config sys-libs/timezone-data|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||nano -w /etc/locale.gen|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||locale-gen|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||eselect locale list|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||eselect locale set 9|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||env-update && source /etc/profile && export PS1="(chroot) ${PS1}"|
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-560 ns-subject page-Handbook_PPC_Installation_Disks rootpage-Handbook_PPC skin-tyrian action-view">	<div class="mw-jump sr-only">
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<li class="toclevel-1"><a href="#Mounting_the_root_partition"><span class="tocnumber">6</span> <span class="toctext">Mounting the root partition</span></a></li>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html: out of physical memory. The root partition will contain the filesystem 
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<td>Linux root.
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:when the system runs out of physical memory. The root partition will 
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<td>Linux root.
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:storage place for when the system runs out of physical memory. The root 
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<td>Linux root.
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:partition on the disk's first partition, followed by the swap and root 
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<td>Linux root (type 0x83).
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>mac-fdisk /dev/sda</code></div></div>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:</p><p>To create the root partition, enter <kbd style="color: black; font-size: small; border: 0.2em solid; border-color: #DDD #BBB #BBB #DDD; padding: 0 0.4em; background: #EEE; white-space: nowrap;">c</kbd>, followed by <i>4p</i> to select from what block the root partition should start. When asked for the size, enter <i>4p</i> again. mac-fdisk will interpret this as "Use all available space". When asked for the name, enter <i>root</i>.
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>parted /dev/sda</code></div></div>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:</p><p>Create two partitions for Linux, one root filesystem and one swap partition. Run <code>mkpart primary START END</code> to create each partition, replacing START and END with the desired megabyte boundaries.
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:properly, therefore it cannot be used as a root filesystem. It should <i>only</i> be used for interoperability with Microsoft Windows systems (note the emphasis on only).</dd></dl>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>mkfs.ext2 -T small /dev/&lt;device&gt;</code></div><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>mkfs.ext3 -T small /dev/&lt;device&gt;</code></div><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>mkfs.ext4 -T small /dev/&lt;device&gt;</code></div></div>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>mkfs.ext2 -i &lt;ratio&gt; /dev/&lt;device&gt;</code></div></div>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<p>For instance, to have the boot partition (<span style="font-family: monospace; font-size: 95%">/dev/sda1</span>) in ext2 and the root partition (<span style="font-family: monospace; font-size: 95%">/dev/sda3</span>) in ext4 as used in the example partition structure, the following commands would be used:
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>mkfs.ext2 /dev/sda1</code></div></div>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>mkfs.ext4 /dev/sda3</code></div></div>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>mkswap /dev/sda2</code></div></div>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>swapon /dev/sda2</code></div></div>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<h2><span class="mw-headline" id="Mounting_the_root_partition">Mounting the root partition</span></h2>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html: every partition created. As an example we mount the root partition:
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>mount /dev/sda3 /mnt/gentoo</code></div></div>
+Handbook:PPC_Installation_Disks - Gentoo Wiki.html:<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>chmod 1777 /mnt/gentoo/tmp</code></div></div>
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||emerge --ask sys-kernel/gentoo-sources|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||ls -l /usr/src/linux|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:lrwxrwxrwx    1 root   root    12 Oct 13 11:04 /usr/src/linux -> linux-3.16.5-gentoo
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||emerge --ask sys-apps/pciutils|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:Inside the chroot, it is safe to ignore any pcilib warnings (like
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||cd /usr/src/linux |
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||make menuconfig|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:    [*]   Automount devtmpfs at /dev, after the kernel mounted the rootfs
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:Don't compile the file system that is used for the root filesystem as
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||cd /usr/src/linux |
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||make pmac32_defconfig |
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||make menuconfig|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||make && make modules_install|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||cd /usr/src/linux|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||cp vmlinux /boot/kernel-3.16.5-gentoo|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||cp arch/powerpc/boot/images/zImage /boot/kernel-3.16.5-gentoo|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||emerge --ask sys-kernel/genkernel|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||genkernel --install initramfs|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||genkernel --lvm --mdadm --install initramfs|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||ls /boot/initramfs*|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||emerge --ask sys-kernel/genkernel|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||nano -w /etc/fstab|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||genkernel all|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||ls /boot/kernel* /boot/initramfs*|
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||find /lib/modules/<kernel version>/ -type f -iname '*.o' -or
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||mkdir -p /etc/modules-load.d |
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||nano -w /etc/modules-load.d/network.conf |
+Handbook:PPC_Installation_Kernel - Gentoo Wiki.html:|root #||emerge --ask sys-kernel/linux-firmware|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||date|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||ntpd -q -g|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||date 100313162016|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:Go to the Gentoo mount point where the root file system is mounted (most
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||cd /mnt/gentoo|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||wget <PASTED_STAGE_URL>|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||links https://www.gentoo.org/downloads/mirrors/|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||links -http-proxy proxy.server.com:8080
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||lynx https://www.gentoo.org/downloads/mirrors/|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||export http_proxy="http://proxy.server.com:port" |
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||export ftp_proxy="http://proxy.server.com:port"|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||openssl dgst -r -sha512 stage3-ppc-<release>.tar.?(bz2|xz)|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||sha512sum stage3-ppc-<release>.tar.?(bz2|xz)|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||openssl dgst -r -whirlpool stage3-ppc-<release>.tar.?(bz2|xz)|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||gpg --verify stage3-ppc-<release>.tar.?(bz2|xz){.DIGESTS.asc,} |
+
+### start
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||tar xpvf stage3-*.tar.bz2 --xattrs-include='*.*' --numeric-owner|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mirrorselect -i -o >> /mnt/gentoo/etc/portage/make.conf|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mkdir --parents /mnt/gentoo/etc/portage/repos.conf|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||cp /mnt/gentoo/usr/share/portage/config/repos.conf
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||cp --dereference /etc/resolv.conf /mnt/gentoo/etc/|
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||nano -w /mnt/gentoo/etc/portage/make.conf|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||cp --dereference /etc/resolv.conf /mnt/gentoo/etc/|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --types proc /proc /mnt/gentoo/proc |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --rbind /sys /mnt/gentoo/sys |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --make-rslave /mnt/gentoo/sys |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --rbind /dev /mnt/gentoo/dev |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --make-rslave /mnt/gentoo/dev |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||test -L /dev/shm && rm /dev/shm && mkdir /dev/shm |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||mount --types tmpfs --options nosuid,nodev,noexec shm /dev/shm |
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||chmod 1777 /dev/shm|
+Handbook:PPC_Installation_Base - Gentoo Wiki.html:|root #||chroot /mnt/gentoo /bin/bash |
+postchroot:
+
+### current
+
+
+
+Handbook:PPC_Installation_Stage - Gentoo Wiki.html:|root #||nano -w /mnt/gentoo/etc/portage/make.conf|
+
+Handbook:PPC_Installation_System - Gentoo Wiki.html:    properly. The root filesystem should have 1 while the rest should
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||nano -w /etc/fstab|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||blkid|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||blkid|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:the fourth field makes it possible for non-root users to mount the CD.
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||nano -w /etc/conf.d/hostname|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||nano -w /etc/conf.d/net|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||nano -w /etc/conf.d/net|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||emerge --ask --noreplace net-misc/netifrc|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||nano -w /etc/conf.d/net|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||cd /etc/init.d |
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||ln -s net.lo net.eth0 |
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||rc-update add net.eth0 default|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||nano -w /etc/hosts|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||emerge --ask sys-apps/pcmciautils|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:Set the root password using the passwd command.
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||passwd|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:The root Linux account is an all-powerful account, so pick a strong
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||nano -w /etc/rc.conf|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||nano -w /etc/conf.d/keymaps|
+Handbook:PPC_Installation_System - Gentoo Wiki.html:|root #||nano -w /etc/conf.d/hwclock|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||emerge --ask app-admin/sysklogd|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||rc-update add sysklogd default|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||emerge --ask sys-process/cronie|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||rc-update add cronie default|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||crontab /etc/crontab|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||emerge --ask sys-apps/mlocate|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||rc-update add sshd default|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||nano -w /etc/inittab|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||emerge --ask net-misc/dhcpcd|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||emerge --ask net-dialup/ppp|
+Handbook:PPC_Installation_Tools - Gentoo Wiki.html:|root #||emerge --ask net-wireless/iw net-wireless/wpa_supplicant|
