@@ -1,0 +1,40 @@
+#
+# Kernel goo
+#
+emerge sys-kernel/gentoo-sources
+ls -l /usr/src/linux
+emerge sys-apps/pciutils
+emerge sys-kernel/linux-firmware
+cd /usr/src/linux |
+make pmac32_defconfig |
+
+# Adjsut fstab
+#||nano -w /etc/fstab
+#||blkid
+
+echo 'hostname="tux"' >/etc/conf.d/hostname
+#||nano -w /etc/conf.d/net
+#||emerge  --noreplace net-misc/netifrc
+
+#||cd /etc/init.d |
+#||ln -s net.lo net.eth0 |
+#||rc-update add net.eth0 default|
+#||nano -w /etc/hosts|
+#||emerge  sys-apps/pcmciautils|
+#||passwd|
+
+#||nano -w /etc/rc.conf|
+#||nano -w /etc/conf.d/keymaps|
+#||nano -w /etc/conf.d/hwclock|
+
+emerge  app-admin/sysklogd
+rc-update add sysklogd default
+
+#emerge  sys-process/cronie
+#rc-update add cronie default
+emerge  sys-apps/mlocate
+rc-update add sshd default
+#nano -w /etc/inittab
+emerge  net-misc/dhcpcd
+emerge  net-dialup/ppp
+emerge  net-wireless/iw net-wireless/wpa_supplicant
